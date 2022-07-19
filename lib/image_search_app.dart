@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 class ImageSearchApp extends StatefulWidget {
@@ -54,8 +52,10 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(image['previewURL'],
-                                        fit: BoxFit.cover),
+                                    child: Image.network(
+                                      image['previewURL'],
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 );
                               },
@@ -85,8 +85,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
         SizedBox(
           width: 182,
           child: Padding(
-            padding:
-            const EdgeInsets.fromLTRB(5, 15, 5, 10),
+            padding: const EdgeInsets.fromLTRB(5, 15, 5, 10),
             child: TextField(
               controller: _textController,
               onSubmitted: _handleSubmitted,
@@ -97,16 +96,13 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                      width: 2,
-                      color: Colors.lightBlueAccent),
+                  borderSide:
+                      const BorderSide(width: 2, color: Colors.lightBlueAccent),
                 ),
                 hintText: '검색',
-                hintStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold),
-                contentPadding:
-                const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                hintStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                contentPadding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                 filled: true,
                 fillColor: Colors.black12,
               ),
