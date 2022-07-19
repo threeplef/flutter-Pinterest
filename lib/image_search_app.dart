@@ -11,8 +11,6 @@ class ImageSearchApp extends StatefulWidget {
 
 class _ImageSearchAppState extends State<ImageSearchApp> {
   final TextEditingController _textController = TextEditingController();
-
-  Map<String, dynamic>? person;
   List<Map<String, dynamic>> images = [];
 
   @override
@@ -22,7 +20,6 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   }
 
   Future initData() async {
-    person = await getData();
     images = await getImages();
 
     // 화면 갱신
@@ -32,41 +29,43 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _appBar(),
-          Expanded(
-            child: Center(
-              child: person == null
-                  ? const CircularProgressIndicator()
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: GridView.builder(
-                            itemCount: images.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.5 / 1,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _appBar(),
+            Expanded(
+              child: Center(
+                child: images == null
+                    ? const CircularProgressIndicator()
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: GridView.builder(
+                              itemCount: images.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.5 / 1,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                Map<String, dynamic> image = images[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(image['previewURL'],
+                                        fit: BoxFit.cover),
+                                  ),
+                                );
+                              },
                             ),
-                            itemBuilder: (BuildContext context, int index) {
-                              Map<String, dynamic> image = images[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(image['previewURL'],
-                                      fit: BoxFit.cover),
-                                ),
-                              );
-                            },
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -130,14 +129,6 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
 
   void _handleSubmitted(String text) {
     _textController.clear();
-  }
-
-  Future<Map<String, dynamic>> getData() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    String jsonString = '{ "name": "홍길동", "email": "aaa@aaa.com" }';
-    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-    return jsonMap;
   }
 
   Future<List<Map<String, dynamic>>> getImages() async {
