@@ -12,6 +12,7 @@ class ImageSearchApp extends StatefulWidget {
 class _ImageSearchAppState extends State<ImageSearchApp> {
   final TextEditingController _textController = TextEditingController();
   List<Map<String, dynamic>> images = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -21,9 +22,9 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
 
   Future initData() async {
     images = await getImages();
-
-    // 화면 갱신
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -35,7 +36,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             _appBar(),
             Expanded(
               child: Center(
-                child: images == null
+                child: isLoading == true
                     ? const CircularProgressIndicator()
                     : Column(
                         children: [
