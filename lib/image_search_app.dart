@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'data/image_data.dart';
+import 'data/images.dart';
+import 'model/picture.dart';
 
 class ImageSearchApp extends StatefulWidget {
   const ImageSearchApp({Key? key}) : super(key: key);
@@ -10,8 +13,7 @@ class ImageSearchApp extends StatefulWidget {
 
 class _ImageSearchAppState extends State<ImageSearchApp> {
   final TextEditingController _textController = TextEditingController();
-  List<Map<String, dynamic>> images = [];
-  bool isLoading = true;
+  List<Picture> _images = [];
 
   @override
   void initState() {
@@ -20,10 +22,8 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   }
 
   Future initData() async {
-    images = await getImages();
-    setState(() {
-      isLoading = false;
-    });
+    _images = await getImages();
+    setState(() {});
   }
 
   @override
@@ -35,26 +35,26 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             _appBar(),
             Expanded(
               child: Center(
-                child: isLoading == true
+                child: _images.isEmpty
                     ? const CircularProgressIndicator()
                     : Column(
                         children: [
                           Expanded(
                             child: GridView.builder(
-                              itemCount: images.length,
+                              itemCount: _images.length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 childAspectRatio: 1.5 / 1,
                               ),
                               itemBuilder: (BuildContext context, int index) {
-                                Map<String, dynamic> image = images[index];
+                                Picture image = _images[index];
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.network(
-                                      image['previewURL'],
+                                      image.previewURL,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -129,12 +129,13 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
     _textController.clear();
   }
 
-  Future<List<Map<String, dynamic>>> getImages() async {
+  Future<List<Picture>> getImages() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    List<Map<String, dynamic>> hits = data['hits'];
-    return hits;
+    String jsonString = images;
+
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    Iterable hits = json['hits'];
+    return hits.map((e) => Picture.fromJson(e)).toList();
   }
 }
-
-
