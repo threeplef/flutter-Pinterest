@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'data/images.dart';
+import 'data/image_data.dart';
 import 'model/picture.dart';
 
 class ImageSearchApp extends StatefulWidget {
