@@ -13,7 +13,7 @@ class ImageSearchApp extends StatefulWidget {
 
 class _ImageSearchAppState extends State<ImageSearchApp> {
   final TextEditingController _textController = TextEditingController();
-  List<Picture> _images = [];
+  List<Picture> images = [];
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   }
 
   Future initData() async {
-    _images = await getImages();
+    images = await getImages();
     setState(() {});
   }
 
@@ -35,20 +35,20 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             _appBar(),
             Expanded(
               child: Center(
-                child: _images.isEmpty
+                child: images.isEmpty
                     ? const CircularProgressIndicator()
                     : Column(
                         children: [
                           Expanded(
                             child: GridView.builder(
-                              itemCount: _images.length,
+                              itemCount: images.length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 childAspectRatio: 1.5 / 1,
                               ),
                               itemBuilder: (BuildContext context, int index) {
-                                Picture image = _images[index];
+                                Picture image = images[index];
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: ClipRRect(
@@ -132,7 +132,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   Future<List<Picture>> getImages() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    String jsonString = images;
+    String jsonString = imageData;
 
     Map<String, dynamic> json = jsonDecode(jsonString);
     Iterable hits = json['hits'];

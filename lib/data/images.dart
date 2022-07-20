@@ -1,4 +1,4 @@
-String images = """{
+String imageData = """{
   "total": 8737,
   "totalHits": 500,
   "hits": [
