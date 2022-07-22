@@ -4,27 +4,9 @@ import 'package:flutter/material.dart';
 import 'data/image_data.dart';
 import 'model/picture.dart';
 
-class ImageSearchApp extends StatefulWidget {
-  const ImageSearchApp({Key? key}) : super(key: key);
-
-  @override
-  State<ImageSearchApp> createState() => _ImageSearchAppState();
-}
-
-class _ImageSearchAppState extends State<ImageSearchApp> {
+class ImageSearchApp extends StatelessWidget {
+  ImageSearchApp({Key? key}) : super(key: key);
   final TextEditingController _textController = TextEditingController();
-  List<Picture> images = [];
-
-  @override
-  void initState() {
-    super.initState();
-    initData();
-  }
-
-  Future initData() async {
-    images = await getImages();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,36 +16,60 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
           children: [
             _appBar(),
             Expanded(
-              child: Center(
-                child: images.isEmpty
-                    ? const CircularProgressIndicator()
-                    : Column(
-                        children: [
-                          Expanded(
-                            child: GridView.builder(
-                              itemCount: images.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 1.5 / 1,
-                              ),
-                              itemBuilder: (BuildContext context, int index) {
-                                Picture image = images[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      image.previewURL,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<List<Picture>>(
+                  future: getImages(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text('에러가 발생했습니다'),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text('데이터가 없습니다'),
+                      );
+                    }
+
+                    final images = snapshot.data!;
+
+                    if (images.isEmpty) {
+                      return const Center(
+                        child: Text('데이터가 0개입니다'),
+                      );
+                    }
+
+                    return GridView.builder(
+                      itemCount: images.length,
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.5 / 1,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        Picture image = images[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              image.previewURL,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ],
