@@ -32,7 +32,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FutureBuilder<List<Picture>>(
-                  future: getImages(),
+                  future: getImages(_query),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Center(
@@ -145,9 +145,9 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
     );
   }
 
-  Future<List<Picture>> getImages() async {
+  Future<List<Picture>> getImages(String query) async {
     Uri url = Uri.parse(
-        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=apple&image_type=photo');
+        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=$query&image_type=photo');
 
     http.Response response = await http.get(url);
     print('Response status: ${response.statusCode}');
