@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'data/image_data.dart';
 import 'model/picture.dart';
+import 'package:http/http.dart' as http;
 
 class ImageSearchApp extends StatefulWidget {
   const ImageSearchApp({Key? key}) : super(key: key);
@@ -62,7 +62,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
 
                     return GridView(
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
@@ -136,7 +136,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.fromLTRB(3,0,3,0),
+          padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
           child: Icon(Icons.notifications, size: 30, color: Colors.black45),
         ),
         const Icon(Icons.account_circle, size: 30, color: Colors.blueAccent),
@@ -146,9 +146,13 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   }
 
   Future<List<Picture>> getImages() async {
-    await Future.delayed(const Duration(seconds: 2));
+    Uri url = Uri.parse(
+        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=apple&image_type=photo');
 
-    String jsonString = imageData;
+    http.Response response = await http.get(url);
+    print('Response status: ${response.statusCode}');
+
+    String jsonString = response.body;
 
     Map<String, dynamic> json = jsonDecode(jsonString);
     Iterable hits = json['hits'];
