@@ -4,9 +4,22 @@ import 'package:flutter/material.dart';
 import 'data/image_data.dart';
 import 'model/picture.dart';
 
-class ImageSearchApp extends StatelessWidget {
-  ImageSearchApp({Key? key}) : super(key: key);
-  final TextEditingController _textController = TextEditingController();
+class ImageSearchApp extends StatefulWidget {
+  const ImageSearchApp({Key? key}) : super(key: key);
+
+  @override
+  State<ImageSearchApp> createState() => _ImageSearchAppState();
+}
+
+class _ImageSearchAppState extends State<ImageSearchApp> {
+  final _textController = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,26 +60,24 @@ class ImageSearchApp extends StatelessWidget {
                       );
                     }
 
-                    return GridView.builder(
-                      itemCount: images.length,
+                    return GridView(
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1.5 / 1,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
                       ),
-                      itemBuilder: (BuildContext context, int index) {
-                        Picture image = images[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              image.previewURL,
-                              fit: BoxFit.cover,
-                            ),
+                      children: images
+                          .where((e) => e.tags.contains(_query))
+                          .map((Picture image) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            image.previewURL,
+                            fit: BoxFit.cover,
                           ),
                         );
-                      },
+                      }).toList(),
                     );
                   },
                 ),
@@ -95,7 +106,6 @@ class ImageSearchApp extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(5, 15, 5, 10),
             child: TextField(
               controller: _textController,
-              onSubmitted: _handleSubmitted,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -105,6 +115,15 @@ class ImageSearchApp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   borderSide:
                       const BorderSide(width: 2, color: Colors.lightBlueAccent),
+                ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _query = _textController.text;
+                      _textController.clear();
+                    });
+                  },
+                  child: const Icon(Icons.search),
                 ),
                 hintText: '검색',
                 hintStyle:
@@ -116,23 +135,14 @@ class ImageSearchApp extends StatelessWidget {
             ),
           ),
         ),
-        // const Spacer(),
         const Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+          padding: EdgeInsets.fromLTRB(3,0,3,0),
           child: Icon(Icons.notifications, size: 30, color: Colors.black45),
         ),
         const Icon(Icons.account_circle, size: 30, color: Colors.blueAccent),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-          child:
-              Icon(Icons.keyboard_arrow_down, size: 30, color: Colors.black45),
-        ),
+        const Icon(Icons.keyboard_arrow_down, size: 30, color: Colors.black45),
       ],
     );
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
   }
 
   Future<List<Picture>> getImages() async {
