@@ -76,7 +76,7 @@ class _VideoSearchAppState extends State<VideoSearchApp> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => VideoApp()),
+                                  builder: (context) => VideoApp(video.videos['medium']['url'])),
                             );
                           },
                           child: ClipRRect(

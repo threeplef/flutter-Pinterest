@@ -2,7 +2,8 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
 class VideoApp extends StatefulWidget {
-  const VideoApp({Key? key}) : super(key: key);
+ const VideoApp(this.url, {Key? key}) : super(key: key);
+  final String url;
 
   @override
   _VideoAppState createState() => _VideoAppState();
@@ -14,7 +15,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network('')
+    _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         setState(() {});
         _controller.setLooping(true);
