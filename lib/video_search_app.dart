@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/picture_api.dart';
-import 'model/picture.dart';
+import 'package:json_test/video_api.dart';
+import 'package:json_test/video_play.dart';
+import 'model/video.dart';
+import 'package:video_player/video_player.dart';
 
-
-class ImageSearchApp extends StatefulWidget {
-  const ImageSearchApp({Key? key}) : super(key: key);
+class VideoSearchApp extends StatefulWidget {
+  const VideoSearchApp({Key? key}) : super(key: key);
 
   @override
-  State<ImageSearchApp> createState() => _ImageSearchAppState();
+  State<VideoSearchApp> createState() => _VideoSearchAppState();
 }
 
-class _ImageSearchAppState extends State<ImageSearchApp> {
-  final _pictureApi = PictureApi();
+class _VideoSearchAppState extends State<VideoSearchApp> {
+  final _videoApi = VideoApi();
   final _textController = TextEditingController();
   String _query = '';
 
@@ -31,8 +32,8 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: FutureBuilder<List<Picture>>(
-                  future: _pictureApi.getImages(_query),
+                child: FutureBuilder<List<Video>>(
+                  future: _videoApi.getVideos(_query),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Center(
@@ -52,9 +53,9 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                       );
                     }
 
-                    final images = snapshot.data!;
+                    final videos = snapshot.data!;
 
-                    if (images.isEmpty) {
+                    if (videos.isEmpty) {
                       return const Center(
                         child: Text('데이터가 0개입니다'),
                       );
@@ -67,14 +68,23 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
-                      children: images
+                      children: videos
                           .where((e) => e.tags.contains(_query))
-                          .map((Picture image) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            image.previewURL,
-                            fit: BoxFit.cover,
+                          .map((Video video) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VideoApp()),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                              'https://i.vimeocdn.com/video/${video.pictureId}_${video.thumbnailSize}.jpg',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       }).toList(),
