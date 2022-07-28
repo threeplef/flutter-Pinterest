@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/image_search_app.dart';
-import 'package:json_test/video_search_app.dart';
+import 'package:json_test/ui/image_search_app.dart';
+import 'package:json_test/ui/video_search_app.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(Icons.ondemand_video_outlined), label: '비디오'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xffCC0200),
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: _onItemTapped,
       ),
     );

@@ -6,10 +6,10 @@ class VideoApp extends StatefulWidget {
   final String url;
 
   @override
-  _VideoAppState createState() => _VideoAppState();
+  VideoAppState createState() => VideoAppState();
 }
 
-class _VideoAppState extends State<VideoApp> {
+class VideoAppState extends State<VideoApp> {
   late VideoPlayerController _controller;
 
   @override
@@ -35,20 +35,17 @@ class _VideoAppState extends State<VideoApp> {
           )
               : Container(),
         ),
-        floatingActionButton: Opacity(
-          opacity: 0.3,
-          child: FloatingActionButton(
-            backgroundColor: Colors.black,
-            onPressed: () {
-              setState(() {
-                _controller.value.isPlaying
-                    ? _controller.pause()
-                    : _controller.play();
-              });
-            },
-            child: Icon(
-              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-            ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          onPressed: () {
+            setState(() {
+              _controller.value.isPlaying
+                  ? _controller.pause()
+                  : _controller.play();
+            });
+          },
+          child: Icon(
+            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
           ),
         ),
       ),

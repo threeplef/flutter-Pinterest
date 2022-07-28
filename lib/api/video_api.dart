@@ -9,7 +9,6 @@ class VideoApi {
         'https://pixabay.com/api/videos/?key=10711147-dc41758b93b263957026bdadb&q=$query');
 
     http.Response response = await http.get(url);
-    print('Response status: ${response.statusCode}');
 
     String jsonString = response.body;
 

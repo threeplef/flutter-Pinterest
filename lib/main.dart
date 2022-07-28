@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/image_search_app.dart';
-import 'package:json_test/main_screen.dart';
+import 'package:json_test/color_schemes.g.dart';
+import 'package:json_test/ui/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +15,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+      ),
+      themeMode: ThemeMode.system,
       home: const MainScreen(),
     );
   }
