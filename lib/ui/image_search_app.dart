@@ -103,80 +103,42 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
         const SizedBox(width: 5),
         const Icon(Icons.keyboard_arrow_down),
-        orientation == Orientation.portrait
-            ? SizedBox(
-                width: 182,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 15, 5, 10),
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
-                            width: 2,
-                            color: Theme.of(context).colorScheme.primary),
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _query = _textController.text;
-                            _textController.clear();
-                          });
-                        },
-                        child: const Icon(Icons.search),
-                      ),
-                      hintText: '검색',
-                      hintStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                      contentPadding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surfaceVariant,
-                    ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 15, 5, 10),
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(
+                    width: 2,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              )
-            : SizedBox(
-                width: 525,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 15, 5, 10),
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _query = _textController.text;
-                            _textController.clear();
-                          });
-                        },
-                        child: const Icon(Icons.search),
-                      ),
-                      hintText: '검색',
-                      hintStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                      contentPadding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surfaceVariant,
-                    ),
-                  ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _query = _textController.text;
+                      _textController.clear();
+                    });
+                  },
+                  child: const Icon(Icons.search),
                 ),
+                hintText: '검색',
+                hintStyle:
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                contentPadding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surfaceVariant,
               ),
+            ),
+          ),
+        ),
         const Padding(
           padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
           child: Icon(Icons.notifications, size: 30, color: Colors.black45),
