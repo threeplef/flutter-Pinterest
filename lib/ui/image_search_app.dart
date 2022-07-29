@@ -91,8 +91,6 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
   }
 
   Widget _appBar() {
-    final orientation = MediaQuery.of(context).orientation;
-
     return Row(
       children: [
         Image.network(

@@ -102,8 +102,6 @@ class _VideoSearchAppState extends State<VideoSearchApp> {
   }
 
   Widget _appBar() {
-    final orientation = MediaQuery.of(context).orientation;
-
     return Row(
       children: [
         Image.network(
