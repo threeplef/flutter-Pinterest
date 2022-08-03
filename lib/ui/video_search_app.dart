@@ -13,7 +13,6 @@ class VideoSearchApp extends StatefulWidget {
 class _VideoSearchAppState extends State<VideoSearchApp> {
   final _videoApi = VideoApi();
   final _textController = TextEditingController();
-  String _query = '';
 
   @override
   void dispose() {
@@ -33,8 +32,8 @@ class _VideoSearchAppState extends State<VideoSearchApp> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: FutureBuilder<List<Video>>(
-                  future: _videoApi.getVideos(_query),
+                child: StreamBuilder<List<Video>>(
+                  stream: _videoApi.videosStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Center(
@@ -69,9 +68,7 @@ class _VideoSearchAppState extends State<VideoSearchApp> {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
-                      children: videos
-                          .where((e) => e.tags.contains(_query))
-                          .map((Video video) {
+                      children: videos.map((Video video) {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
@@ -132,7 +129,7 @@ class _VideoSearchAppState extends State<VideoSearchApp> {
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
-                      _query = _textController.text;
+                      _videoApi.fetchVideos(_textController.text);
                       _textController.clear();
                     });
                   },

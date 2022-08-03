@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:json_test/api/picture_api.dart';
 import '../model/picture.dart';
