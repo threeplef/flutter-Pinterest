@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:json_test/api/picture_api.dart';
 import '../model/picture.dart';
@@ -12,7 +14,6 @@ class ImageSearchApp extends StatefulWidget {
 class _ImageSearchAppState extends State<ImageSearchApp> {
   final _pictureApi = PictureApi();
   final _textController = TextEditingController();
-  String _query = '';
 
   @override
   void dispose() {
@@ -32,8 +33,9 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: FutureBuilder<List<Picture>>(
-                  future: _pictureApi.getImages(_query),
+                child: StreamBuilder<List<Picture>>(
+                  initialData: const [],
+                  stream: _pictureApi.imagesStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Center(
@@ -53,7 +55,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                       );
                     }
 
-                    final images = snapshot.data!;
+                    final List<Picture> images = snapshot.data!;
 
                     if (images.isEmpty) {
                       return const Center(
@@ -68,9 +70,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
-                      children: images
-                          .where((e) => e.tags.contains(_query))
-                          .map((Picture image) {
+                      children: images.map((Picture image) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(
@@ -115,13 +115,16 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(
                     width: 2,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .primary,
                   ),
                 ),
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
-                      _query = _textController.text;
+                      _pictureApi.fetchImages(_textController.text);
                       _textController.clear();
                     });
                   },
@@ -132,7 +135,10 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                 const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 contentPadding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.surfaceVariant,
+                fillColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .surfaceVariant,
               ),
             ),
           ),
@@ -146,4 +152,38 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
       ],
     );
   }
+
+  // class ImageGridView extends StatefulWidget {
+  // const ImageGridView({Key? key}) : super(key: key);
+  //
+  // @override
+  // State<ImageGridView> createState() => _ImageGridViewState();
+  // }
+
+  // class _ImageGridViewState extends State<ImageGridView> {
+  // @override
+  // Widget build(BuildContext context) {
+  // final orientation = MediaQuery.of(context).orientation;
+  //
+  // return GridView(
+  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  // crossAxisCount:
+  // orientation == Orientation.portrait ? 2 : 4,
+  // mainAxisSpacing: 10,
+  // crossAxisSpacing: 10,
+  // ),
+  // children: widget.images
+  //     .where((e) => e.tags.contains(_query))
+  //     .map((Picture image) {
+  // return ClipRRect(
+  // borderRadius: BorderRadius.circular(20),
+  // child: Image.network(
+  // image.previewURL,
+  // fit: BoxFit.cover,
+  // ),
+  // );
+  // }).toList(),
+  // );
+  // }
+  // }
 }
