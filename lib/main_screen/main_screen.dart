@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/ui/image_search_app.dart';
-import 'package:json_test/ui/video_search_app.dart';
+import 'package:json_test/image_screen/ui/image_search_app.dart';
+import 'package:json_test/video_screen/ui/video_search_app.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

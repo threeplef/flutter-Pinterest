@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:json_test/color_schemes.g.dart';
-import 'package:json_test/ui/main_screen.dart';
+import 'package:json_test/image_screen/view_model/image_search_view_model.dart';
+import 'package:json_test/main_screen/main_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => ImageSearchViewModel(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -61,7 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headline4,
             ),
           ],
         ),

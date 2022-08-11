@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/api/video_api.dart';
-import 'package:json_test/ui/video_play.dart';
+import 'package:json_test/video_screen/api/video_api.dart';
+import 'package:json_test/video_screen/ui/video_play.dart';
 import '../model/video.dart';
 
 class VideoSearchApp extends StatefulWidget {
