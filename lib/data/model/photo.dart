@@ -1,14 +1,14 @@
-class Picture {
+class Photo {
   final String previewURL;
   final String tags;
 
-  Picture({
+  Photo({
     required this.previewURL,
     required this.tags,
   });
 
-  factory Picture.fromJson(Map<String, dynamic> json) {
-    return Picture(
+  factory Photo.fromJson(Map<String, dynamic> json) {
+    return Photo(
       previewURL: json['previewURL'] as String,
       tags: json['tags'] as String,
     );

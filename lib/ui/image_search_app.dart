@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/data/model/picture.dart';
+import 'package:json_test/data/model/photo.dart';
 import 'package:json_test/data/repository/image_search_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +93,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                     ),
-                    children: viewModel.imageList.map((Picture image) {
+                    children: viewModel.imageList.map((Photo image) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
