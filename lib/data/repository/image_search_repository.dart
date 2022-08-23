@@ -3,7 +3,7 @@ import 'package:json_test/data/model/photo.dart';
 import 'package:json_test/data/source/picture_source.dart';
 
 class ImageSearchViewModel extends ChangeNotifier {
-  final _pictureApi = PictureApi();
+  final _pictureApi = PhotoApi();
 
   List<Photo> imageList = [];
 

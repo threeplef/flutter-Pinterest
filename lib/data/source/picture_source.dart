@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:json_test/data/model/photo.dart';
 
-class PictureApi {
-  PictureApi() {
+class PhotoApi {
+  PhotoApi() {
     fetchImages('');
   }
 
