@@ -97,7 +97,7 @@ class _ImageSearchAppState extends State<ImageSearchApp> {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
-                          image.previewURL,
+                          image.previewUrl,
                           fit: BoxFit.cover,
                         ),
                       );

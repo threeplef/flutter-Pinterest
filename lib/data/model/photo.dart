@@ -1,16 +1,14 @@
-class Photo {
-  final String previewURL;
-  final String tags;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Photo({
-    required this.previewURL,
-    required this.tags,
-  });
+part 'photo.freezed.dart';
+part 'photo.g.dart';
 
-  factory Photo.fromJson(Map<String, dynamic> json) {
-    return Photo(
-      previewURL: json['previewURL'] as String,
-      tags: json['tags'] as String,
-    );
-  }
+@freezed
+class Photo with _$Photo {
+  const factory Photo({
+    @JsonKey(name: 'previewURL') required String previewUrl,
+    required String tags,
+  }) = _Photo;
+
+  factory Photo.fromJson(Map<String, Object?> json) => _$PhotoFromJson(json);
 }
