@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_test/color_schemes.g.dart';
-import 'package:json_test/image_screen/view_model/image_search_view_model.dart';
-import 'package:json_test/main_screen/main_screen.dart';
+import 'package:json_test/data/repository/image_search_repository.dart';
+import 'package:json_test/ui/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

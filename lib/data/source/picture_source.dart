@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:json_test/image_screen/model/picture.dart';
+import 'package:json_test/data/model/picture.dart';
 
 class PictureApi {
   PictureApi() {

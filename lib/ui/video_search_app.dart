@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/video_screen/api/video_api.dart';
-import 'package:json_test/video_screen/ui/video_play.dart';
-import '../model/video.dart';
+import 'package:json_test/data/source/video_source.dart';
+import 'package:json_test/ui/video_play.dart';
+import '../../data/model/video.dart';
 
 class VideoSearchApp extends StatefulWidget {
   const VideoSearchApp({Key? key}) : super(key: key);

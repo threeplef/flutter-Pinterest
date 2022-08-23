@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_test/image_screen/model/picture.dart';
-import 'package:json_test/image_screen/view_model/image_search_view_model.dart';
+import 'package:json_test/data/model/picture.dart';
+import 'package:json_test/data/repository/image_search_repository.dart';
 import 'package:provider/provider.dart';
 
 class ImageSearchApp extends StatefulWidget {
